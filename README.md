@@ -1,35 +1,35 @@
-# Telegram Nitter 媒体下载 Bot
+# Telegram Nitter 媒體下載 Bot
 
-一个基于 Python 的 Telegram 机器人，能够自动下载并发送来自 X.com（原 Twitter）推文中的视频、图片以及用户头像。  
-该机器人通过将推文链接转换为 Nitter 页面，结合 Selenium 模拟浏览器操作、BeautifulSoup 解析页面、FFmpeg 下载视频流，实现对推特媒体内容的无障碍抓取。
+壹個基於 Python 的 Telegram 機器人，能夠自動下載並發送來自 X.com（原 Twitter）推文中的視頻、圖片以及用戶頭像。  
+該機器人通過將推文鏈接轉換為 Nitter 頁面，結合 Selenium 模擬瀏覽器操作、BeautifulSoup 解析頁面、FFmpeg 下載視頻流，實現對推特媒體內容的無障礙抓取。
 
-## 功能特点
-- 自动识别并下载推文中的视频（优先级最高）  
-- 在视频下载失败时，改为下载推文中的图片  
-- 支持多图群发  
-- 可单独下载用户主页头像  
-- 内置多 User‑Agent 轮换和延时策略，降低反爬拦截风险  
+## 功能特點
+- 自動識別並下載推文中的視頻（優先級最高）  
+- 在視頻下載失敗時，改為下載推文中的圖片  
+- 支持多圖群發  
+- 可單獨下載用戶主頁頭像  
+- 內置多 User‑Agent 輪換和延時策略，降低反爬攔截風險  
 
-## 技术栈及依赖
+## 技術棧及依賴
 - Python 3.7+
 - python-telegram-bot（v20+）
 - selenium
 - webdriver-manager
 - beautifulsoup4
 - requests
-- FFmpeg（用于下载和合并 m3u8 视频流）
-- Google Chrome 或 Chromium 浏览器
+- FFmpeg（用於下載和合並 m3u8 視頻流）
+- Google Chrome 或 Chromium 瀏覽器
 
-## 快速开始
+## 快速開始
 
-1. 克隆仓库  
+1. 克隆倉庫  
    ```bash
    git clone https://github.com/your-repo/telegram-nitter-bot.git
    cd telegram-nitter-bot
    ```
 
-2. 安装依赖  
-   建议使用虚拟环境：  
+2. 安裝依賴  
+   建議使用虛擬環境：  
    ```bash
    python3 -m venv venv
    source venv/bin/activate
@@ -44,45 +44,45 @@
    requests
    ```
 
-3. 安装系统依赖  
-   - 安装 Chrome / Chromium 浏览器  
-   - 安装 FFmpeg (`sudo apt-get install ffmpeg` 或对应系统包管理器)
+3. 安裝系統依賴  
+   - 安裝 Chrome / Chromium 瀏覽器  
+   - 安裝 FFmpeg (`sudo apt-get install ffmpeg` 或對應系統包管理器)
 
 4. 配置 Bot Token  
-   在 `bot.py` 中，将 `TELEGRAM_BOT_TOKEN = "TOKEN"` 替换为你自己的 Telegram Bot Token，或通过环境变量管理：
+   在 `bot.py` 中，將 `TELEGRAM_BOT_TOKEN = "TOKEN"` 替換為妳自己的 Telegram Bot Token，或通過環境變量管理：
    ```bash
-   export TELEGRAM_BOT_TOKEN="你的 Bot Token"
+   export TELEGRAM_BOT_TOKEN="妳的 Bot Token"
    ```
 
-5. 运行机器人  
+5. 運行機器人  
    ```bash
    python bot.py
    ```
 
-## 使用说明
-- 在 Telegram 中向你的 Bot 发送任意含有 `x.com` 或 `twitter.com` 的链接  
-- 如果是用户主页链接（非推文），Bot 会返回用户头像  
-- 如果是推文链接，Bot 会：
-  1. 尝试下载视频并发送  
-  2. 若视频下载失败，改为抓取并发送图片  
+## 使用說明
+- 在 Telegram 中向妳的 Bot 發送任意含有 `x.com` 或 `twitter.com` 的鏈接  
+- 如果是用戶主頁鏈接（非推文），Bot 會返回用戶頭像  
+- 如果是推文鏈接，Bot 會：
+  1. 嘗試下載視頻並發送  
+  2. 若視頻下載失敗，改為抓取並發送圖片  
 
-## 代码结构与主要模块
+## 代碼結構與主要模塊
 
 - **bot.py**  
-  - `convert_to_nitter(url)`：将 X/Twitter 链接转换为 Nitter 页面地址  
-  - `is_blocked_html(html)`：检测页面是否被反爬拦截  
-  - `extract_true_m3u8_url(html)`：从 Nitter 页面中提取真实 m3u8 视频流地址  
-  - `download_m3u8_with_ffmpeg(m3u8_url, output_file)`：调用 FFmpeg 下载并保存为 MP4  
-  - `download_tweet_video(tweet_url)`：完整的视频下载流程（UA 轮换、点击 HLS 播放按钮等）  
-  - `download_tweet_images(tweet_url)`：下载推文中主作者的图片列表  
-  - `download_user_avatar(url)`：下载用户主页头像  
-  - `handle_message(update, context)`：主消息处理函数，根据链接类型分发下载任务  
-  - `error_handler(update, context)`：统一捕获并记录错误  
+  - `convert_to_nitter(url)`：將 X/Twitter 鏈接轉換為 Nitter 頁面地址  
+  - `is_blocked_html(html)`：檢測頁面是否被反爬攔截  
+  - `extract_true_m3u8_url(html)`：從 Nitter 頁面中提取真實 m3u8 視頻流地址  
+  - `download_m3u8_with_ffmpeg(m3u8_url, output_file)`：調用 FFmpeg 下載並保存為 MP4  
+  - `download_tweet_video(tweet_url)`：完整的視頻下載流程（UA 輪換、點擊 HLS 播放按鈕等）  
+  - `download_tweet_images(tweet_url)`：下載推文中主作者的圖片列表  
+  - `download_user_avatar(url)`：下載用戶主頁頭像  
+  - `handle_message(update, context)`：主消息處理函數，根據鏈接類型分發下載任務  
+  - `error_handler(update, context)`：統壹捕獲並記錄錯誤  
 
-## 注意事项
-- Nitter 服务偶有不可用或 IP 限制，可能导致抓取失败  
-- 确保服务器环境安装了对应版本的 Chrome/Chromium 与 FFmpeg  
-- 本项目仅用于学习与研究，请勿用于商业非法用途  
+## 註意事項
+- Nitter 服務偶有不可用或 IP 限制，可能導致抓取失敗  
+- 確保服務器環境安裝了對應版本的 Chrome/Chromium 與 FFmpeg  
+- 本項目僅用於學習與研究，請勿用於商業非法用途  
 
-## 许可协议
-本项目遵循 MIT License，欢迎贡献与讨论。
+## 許可協議
+本項目遵循 MIT License，歡迎貢獻與討論。
